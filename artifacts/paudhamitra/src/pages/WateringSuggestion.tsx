@@ -35,17 +35,13 @@ interface WateringResult {
   waterAmountMl: number | null;
 }
 
-const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY as string;
-
 async function fetchWeather(city: string): Promise<WeatherData> {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${WEATHER_API_KEY}&units=metric`;
-  const res = await fetch(url);
+  const res = await fetch(`/api/weather?q=${encodeURIComponent(city)}`);
+  const data = await res.json();
   if (!res.ok) {
     if (res.status === 404) throw new Error(`City "${city}" not found. Try a different city name.`);
-    if (res.status === 401) throw new Error("Invalid API key. Please check your VITE_WEATHER_API_KEY.");
-    throw new Error(`Weather fetch failed (${res.status})`);
+    throw new Error(data.error || `Weather fetch failed (${res.status})`);
   }
-  const data = await res.json();
   return {
     temperature: Math.round(data.main.temp * 10) / 10,
     feelsLike: Math.round(data.main.feels_like * 10) / 10,
