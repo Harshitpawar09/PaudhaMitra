@@ -21,7 +21,11 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 ```text
 artifacts-monorepo/
 ├── artifacts/              # Deployable applications
-│   └── api-server/         # Express API server
+│   ├── api-server/         # Express API server (proxies /ml/* to Python ML backend)
+│   └── paudhamitra/        # PaudhaMitra React frontend (plant disease detection app)
+├── artifacts/paudhamitra-backend/  # Python Flask ML backend with Keras model
+│   ├── app.py              # Flask API server with /api/predict and /api/healthz
+│   └── paudhamitra_model.keras  # Trained Keras CNN model (16-class plant disease classifier)
 ├── lib/                    # Shared libraries
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
 │   ├── api-client-react/   # Generated React Query hooks

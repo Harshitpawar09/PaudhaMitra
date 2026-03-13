@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "PaudhaMitra"
+version = "1.0.0"
+id = "artifacts/paudhamitra"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 22289
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/paudhamitra run dev"
+
+[services.env]
+PORT = "22289"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/paudhamitra", "run", "build"]
+publicDir = "artifacts/paudhamitra/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
